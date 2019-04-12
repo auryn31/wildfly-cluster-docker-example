@@ -1,0 +1,29 @@
+version: '3.5'
+services:
+
+  wildfly1:
+    build:
+      context: .
+      args:
+        WILDFLY_NAME: wildfly_1_test
+    image: wildfly_1_test
+    ports:
+    - 8080:8080
+    networks:
+      wildfly_network:
+
+  wildfly2:
+    build: 
+      context: .
+      args:
+        WILDFLY_NAME: wildfly_2_test
+    image: wildfly_2_test
+    ports:
+    - 8081:8080
+    networks:
+      wildfly_network:
+
+networks:
+  wildfly_network:
+    ipam:
+      driver: default
