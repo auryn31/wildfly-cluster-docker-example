@@ -6,6 +6,7 @@ services:
       context: .
       args:
         WILDFLY_NAME: wildfly_1_test
+        CLUSTER_PW: secret_password
     image: wildfly_1_test
     ports:
     - 8080:8080
@@ -17,6 +18,7 @@ services:
       context: .
       args:
         WILDFLY_NAME: wildfly_2_test
+        CLUSTER_PW: secret_password
     image: wildfly_2_test
     ports:
     - 8081:8080

@@ -1,12 +1,16 @@
 # wildfly-docker-multicast-test
+This is a short example of Wildfly running in two docker containern to create a cluster.
 
-## ISSUE: The wildflys do not create a cluster via mutlicast
-- the two wildflys cannot talk to each other
-- they receive a cluster message
-- they only connect to themself:
-    - ` wildfly2_1  | 09:23:09,818 INFO  [org.infinispan.CLUSTER] (MSC service thread 1-1) ISPN000094: Received new cluster view for channel ejb: [wildfly_2_test|0] (1) [wildfly_2_test] `
-    - ` wildfly2_1  | 09:23:09,811 INFO  [org.infinispan.CLUSTER] (MSC service thread 1-6) ISPN000094: Received new cluster view for channel ejb: [wildfly_2_test|0] (1) [wildfly_2_test]`
-    - ` wildfly2_1  | 09:23:09,811 INFO  [org.infinispan.CLUSTER] (MSC service thread 1-4) ISPN000094: Received new cluster view for channel ejb: [wildfly_2_test|0] (1) [wildfly_2_test] `
-    - `wildfly2_1  | 09:23:09,818 INFO  [org.infinispan.CLUSTER] (MSC service thread 1-8) ISPN000094: Received new cluster view for channel ejb: [wildfly_2_test|0] (1) [wildfly_2_test]`
+## Dockerfile
+- `-Djboss.node.name=${WILDFLY_NAME}`
+    - The wildflyname is specified with that there are no name conflicts in the cluster.
+- `-Djava.net.preferIPv4Stack=true`
+    - infinispan has to use the ipv4 stack to comunicate over the *230.0.0.4* address (default) 
+- `-Djgroups.bind_addr=$(hostname -i)` 
+    - **important** to bind jgoup to the local ip of the container
+    - if you forget this parameter, jgroup use 127.0.0.1 --> this will not work if you are trying to create a cluster over different machines
+- `-Djboss.messaging.cluster.password=${CLUSTER_PW}`
+    - you have to change the standard passwort, if not, jboss will throw an exception and you cannot use the distributed cache
 
-- the first does the same with only wildfly_1_test
+## docker-compose.yaml
+The docker-compose.yaml file will provide the arguments for the container and will build the image with the current dockerfile. It also define the network, in which the two wildflys are operating.
