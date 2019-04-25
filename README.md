@@ -10,8 +10,8 @@ Docker will pull the current wildfly image and start two docker container and cr
 `INFO  [org.infinispan.CLUSTER] (MSC service thread 1-4) ISPN000094: Received new cluster view for channel ejb: [wildfly_2_test|1] (2) [wildfly_2_test, wildfly_1_test]`
 
 You can reach the example war under: 
-- http://127.0.0.1:8080/helloworld/HelloWorld
-- http://127.0.0.1:8080/helloworld/HelloWorld
+- http://127.0.0.1/helloworld/HelloWorld (with header Host:wildfly_1_test)
+- http://127.0.0.1/helloworld/HelloWorld (with header Host:wildfly_2_test)
 
 ## Requirements
 - docker
