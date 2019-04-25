@@ -1,5 +1,5 @@
-# Wildfly Docker Multicast
-This is a short example of Wildfly running in two docker container to create a cluster. The container are managed by a compose file.
+# Wildfly Cluster in Docker
+This is a short example of Wildfly running in two docker container and create a cluster. The container are managed by a compose file.
 
 To start the example you have to type:
 
