@@ -1,15 +1,28 @@
 version: '3.5'
 services:
 
+  traefik:
+    image: traefik
+    command: --api --docker
+    ports:
+      - "80:80"
+      - "443:443"
+      - "8080:8080"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+    networks: 
+      - wildfly_network
+
   wildfly1:
     build:
       context: .
       args:
         WILDFLY_NAME: wildfly_1_test
         CLUSTER_PW: secret_password
+      labels:
+        - "traefik.frontend.rule=Host:wildfly_1_test"
+        - "traefik.port=8080"
     image: wildfly_1_test
-    ports:
-    - 8080:8080
     networks:
       wildfly_network:
 
@@ -19,9 +32,10 @@ services:
       args:
         WILDFLY_NAME: wildfly_2_test
         CLUSTER_PW: secret_password
+      labels:
+        - "traefik.web.frontend.rule=Host:wildfly_2_test"
+        - "traefik.web.port=8080"
     image: wildfly_2_test
-    ports:
-    - 8081:8080
     networks:
       wildfly_network:
 
